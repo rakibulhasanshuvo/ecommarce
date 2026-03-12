@@ -13,8 +13,7 @@ const navItems = [
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { itemCount, wishlist } = useCart();
-  const wishlistCount = wishlist.length;
+  const { itemCount, wishlistCount } = useCart();
 
   // Hide BottomNav on admin pages
   if (pathname?.startsWith("/admin")) return null;

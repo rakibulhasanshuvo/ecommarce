@@ -8,8 +8,7 @@ import { useCart } from "@/app/context/CartContext";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { itemCount, wishlist } = useCart();
-  const wishlistCount = wishlist.length;
+  const { itemCount, wishlistCount } = useCart();
   const pathname = usePathname();
 
   // Handle scroll effect for glass navbar

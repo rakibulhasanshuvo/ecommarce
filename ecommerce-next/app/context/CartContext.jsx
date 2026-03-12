@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useReducer, useCallback, useMemo, useEffect } from "react";
+import { createContext, useContext, useReducer, useCallback, useMemo, useEffect, useState } from "react";
 import { discountCodes } from "@/app/lib/mock-data";
 
 const STORAGE_KEYS = {
@@ -14,6 +14,7 @@ const initialState = {
   wishlist: [], // [product]
   discountCode: null,
   discountAmount: 0,
+  isLoaded: false,
 };
 
 // ===== Action Types =====
@@ -31,7 +32,7 @@ const ACTIONS = {
   CLEAR_WISHLIST: "CLEAR_WISHLIST",
 };
 
-// ===== Reducer =====
+// ===== Reducer (pure – no side effects) =====
 function cartReducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_INITIAL_STATE:
@@ -54,21 +55,13 @@ function cartReducer(state, action) {
         newItems = [...state.items, { product, variant, quantity }];
       }
 
-      const newState = { ...state, items: newItems };
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(newState.items));
-      }
-      return newState;
+      return { ...state, items: newItems };
     }
 
     case ACTIONS.REMOVE_ITEM: {
       const { sku } = action.payload;
       const newItems = state.items.filter((item) => item.variant.sku !== sku);
-      const newState = { ...state, items: newItems };
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(newState.items));
-      }
-      return newState;
+      return { ...state, items: newItems };
     }
 
     case ACTIONS.UPDATE_QUANTITY: {
@@ -81,11 +74,7 @@ function cartReducer(state, action) {
           item.variant.sku === sku ? { ...item, quantity } : item
         );
       }
-      const newState = { ...state, items: newItems };
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(newState.items));
-      }
-      return newState;
+      return { ...state, items: newItems };
     }
 
     case ACTIONS.APPLY_DISCOUNT: {
@@ -102,28 +91,19 @@ function cartReducer(state, action) {
     }
 
     case ACTIONS.CLEAR_CART: {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(STORAGE_KEYS.CART);
-      }
-      return { ...initialState, wishlist: state.wishlist };
+      return { ...initialState, wishlist: state.wishlist, isLoaded: state.isLoaded };
     }
 
     case ACTIONS.ADD_TO_WISHLIST: {
       const { product } = action.payload;
       if (state.wishlist.find((p) => p.id === product.id)) return state;
       const newWishlist = [...state.wishlist, product];
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.WISHLIST, JSON.stringify(newWishlist));
-      }
       return { ...state, wishlist: newWishlist };
     }
 
     case ACTIONS.REMOVE_FROM_WISHLIST: {
       const { productId } = action.payload;
       const newWishlist = state.wishlist.filter((p) => p.id !== productId);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.WISHLIST, JSON.stringify(newWishlist));
-      }
       return { ...state, wishlist: newWishlist };
     }
 
@@ -136,16 +116,10 @@ function cartReducer(state, action) {
       } else {
         newWishlist = [...state.wishlist, product];
       }
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEYS.WISHLIST, JSON.stringify(newWishlist));
-      }
       return { ...state, wishlist: newWishlist };
     }
 
     case ACTIONS.CLEAR_WISHLIST: {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem(STORAGE_KEYS.WISHLIST);
-      }
       return { ...state, wishlist: [] };
     }
 
@@ -161,21 +135,50 @@ const CartContext = createContext(null);
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount (with error handling)
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
-      const savedWishlist = localStorage.getItem(STORAGE_KEYS.WISHLIST);
-      
+      let parsedCart = [];
+      let parsedWishlist = [];
+
+      try {
+        const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
+        if (savedCart) parsedCart = JSON.parse(savedCart);
+      } catch (e) {
+        console.error("Failed to parse cart from localStorage", e);
+        localStorage.removeItem(STORAGE_KEYS.CART);
+      }
+
+      try {
+        const savedWishlist = localStorage.getItem(STORAGE_KEYS.WISHLIST);
+        if (savedWishlist) parsedWishlist = JSON.parse(savedWishlist);
+      } catch (e) {
+        console.error("Failed to parse wishlist from localStorage", e);
+        localStorage.removeItem(STORAGE_KEYS.WISHLIST);
+      }
+
       dispatch({
         type: ACTIONS.SET_INITIAL_STATE,
         payload: {
-          items: savedCart ? JSON.parse(savedCart) : [],
-          wishlist: savedWishlist ? JSON.parse(savedWishlist) : [],
+          items: Array.isArray(parsedCart) ? parsedCart : [],
+          wishlist: Array.isArray(parsedWishlist) ? parsedWishlist : [],
+          isLoaded: true,
         }
       });
     }
   }, []);
+
+  // Save to localStorage whenever cart/wishlist changes (after initial load)
+  useEffect(() => {
+    if (state.isLoaded && typeof window !== "undefined") {
+      try {
+        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(state.items));
+        localStorage.setItem(STORAGE_KEYS.WISHLIST, JSON.stringify(state.wishlist));
+      } catch (e) {
+        console.error("Failed to save to localStorage", e);
+      }
+    }
+  }, [state.items, state.wishlist, state.isLoaded]);
 
   const addToCart = useCallback((product, variant, quantity = 1) => {
     dispatch({ type: ACTIONS.ADD_ITEM, payload: { product, variant, quantity } });
@@ -191,6 +194,7 @@ export function CartProvider({ children }) {
 
   const applyDiscount = useCallback((code) => {
     dispatch({ type: ACTIONS.APPLY_DISCOUNT, payload: { code } });
+    return true;
   }, []);
 
   const removeDiscount = useCallback(() => {
@@ -258,6 +262,7 @@ export function CartProvider({ children }) {
       items: state.items,
       wishlist: state.wishlist,
       discountCode: state.discountCode,
+      isLoaded: state.isLoaded,
       itemCount,
       subtotal,
       discountAmount,
@@ -279,6 +284,7 @@ export function CartProvider({ children }) {
       state.items,
       state.wishlist,
       state.discountCode,
+      state.isLoaded,
       itemCount,
       subtotal,
       discountAmount,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
@@ -12,6 +12,8 @@ export default function CheckoutPage() {
   
   const [step, setStep] = useState(1); // 1: Shipping, 2: Payment, 3: Success
   const [isProcessing, setIsProcessing] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const orderNumberRef = useRef(null);
 
   // Form states
   const [shippingInfo, setShippingInfo] = useState({
@@ -22,14 +24,56 @@ export default function CheckoutPage() {
     cardNumber: "", expDate: "", cvv: "", nameOnCard: ""
   });
 
+  // Sanitize text for display
+  const sanitize = (str) => {
+    if (typeof str !== "string") return "";
+    return str.replace(/[<>"'&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '&': '&amp;' }[c]));
+  };
+
+  const validateShipping = () => {
+    const errors = {};
+    if (!shippingInfo.firstName.trim()) errors.firstName = "Required";
+    if (!shippingInfo.lastName.trim()) errors.lastName = "Required";
+    if (!shippingInfo.email.trim()) errors.email = "Required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingInfo.email)) errors.email = "Invalid email";
+    if (!shippingInfo.address.trim()) errors.address = "Required";
+    if (!shippingInfo.city.trim()) errors.city = "Required";
+    if (!shippingInfo.zip.trim()) errors.zip = "Required";
+    else if (!/^\d{4,10}$/.test(shippingInfo.zip.replace(/\s/g, ""))) errors.zip = "Invalid ZIP";
+    return errors;
+  };
+
+  const validatePayment = () => {
+    const errors = {};
+    if (!paymentInfo.nameOnCard.trim()) errors.nameOnCard = "Required";
+    if (!paymentInfo.cardNumber.trim()) errors.cardNumber = "Required";
+    else if (paymentInfo.cardNumber.replace(/\s/g, "").length < 13) errors.cardNumber = "Invalid card number";
+    if (!paymentInfo.expDate.trim()) errors.expDate = "Required";
+    else if (!/^\d{2}\/\d{2}$/.test(paymentInfo.expDate)) errors.expDate = "Use MM/YY";
+    if (!paymentInfo.cvv.trim()) errors.cvv = "Required";
+    else if (!/^\d{3,4}$/.test(paymentInfo.cvv)) errors.cvv = "Invalid CVV";
+    return errors;
+  };
+
   const handleNextStep = (e) => {
     e.preventDefault();
+    const errors = validateShipping();
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
     setStep(step + 1);
   };
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
+    const errors = validatePayment();
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
     setIsProcessing(true);
+    
+    // Generate stable order number once
+    if (!orderNumberRef.current) {
+      orderNumberRef.current = `LX-${Math.floor(Math.random() * 90000) + 10000}`;
+    }
     
     // Simulate order processing
     setTimeout(() => {
@@ -59,8 +103,8 @@ export default function CheckoutPage() {
         </div>
         <h1 className="text-3xl font-bold mb-4">Order Confirmed!</h1>
         <p className="text-text-secondary mb-8">
-          Thank you, {shippingInfo.firstName || "Customer"}. Your order #LX-{Math.floor(Math.random() * 90000) + 10000} has been placed successfully. 
-          We'll send a confirmation email to {shippingInfo.email} shortly.
+          Thank you, {sanitize(shippingInfo.firstName) || "Customer"}. Your order #{orderNumberRef.current} has been placed successfully. 
+          We&apos;ll send a confirmation email to {sanitize(shippingInfo.email)} shortly.
         </p>
         <Link href="/" className="btn-primary">
           Continue Shopping
@@ -99,12 +143,30 @@ export default function CheckoutPage() {
             <form onSubmit={handleNextStep} className="glass p-6 rounded-2xl animate-fade-in">
               <h2 className="text-xl font-bold mb-6">Shipping Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required type="text" placeholder="First Name" value={shippingInfo.firstName} onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})} className="input-field" />
-                <input required type="text" placeholder="Last Name" value={shippingInfo.lastName} onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})} className="input-field" />
-                <input required type="email" placeholder="Email Address" value={shippingInfo.email} onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})} className="input-field md:col-span-2" />
-                <input required type="text" placeholder="Street Address" value={shippingInfo.address} onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})} className="input-field md:col-span-2" />
-                <input required type="text" placeholder="City" value={shippingInfo.city} onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})} className="input-field" />
-                <input required type="text" placeholder="ZIP Code" value={shippingInfo.zip} onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})} className="input-field" />
+                <div>
+                  <input required type="text" placeholder="First Name" value={shippingInfo.firstName} onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})} className={`input-field w-full ${formErrors.firstName ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.firstName && <span className="text-danger text-xs mt-1 block">{formErrors.firstName}</span>}
+                </div>
+                <div>
+                  <input required type="text" placeholder="Last Name" value={shippingInfo.lastName} onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})} className={`input-field w-full ${formErrors.lastName ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.lastName && <span className="text-danger text-xs mt-1 block">{formErrors.lastName}</span>}
+                </div>
+                <div className="md:col-span-2">
+                  <input required type="email" placeholder="Email Address" value={shippingInfo.email} onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})} className={`input-field w-full ${formErrors.email ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.email && <span className="text-danger text-xs mt-1 block">{formErrors.email}</span>}
+                </div>
+                <div className="md:col-span-2">
+                  <input required type="text" placeholder="Street Address" value={shippingInfo.address} onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})} className={`input-field w-full ${formErrors.address ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.address && <span className="text-danger text-xs mt-1 block">{formErrors.address}</span>}
+                </div>
+                <div>
+                  <input required type="text" placeholder="City" value={shippingInfo.city} onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})} className={`input-field w-full ${formErrors.city ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.city && <span className="text-danger text-xs mt-1 block">{formErrors.city}</span>}
+                </div>
+                <div>
+                  <input required type="text" placeholder="ZIP Code" value={shippingInfo.zip} onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})} className={`input-field w-full ${formErrors.zip ? 'ring-1 ring-danger' : ''}`} />
+                  {formErrors.zip && <span className="text-danger text-xs mt-1 block">{formErrors.zip}</span>}
+                </div>
               </div>
               <button type="submit" className="btn-primary w-full mt-8 py-3">
                 Continue to Payment

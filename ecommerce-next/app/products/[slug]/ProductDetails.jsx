@@ -25,7 +25,7 @@ const fadeUpVariant = {
 };
 
 export default function ProductDetails({ product, productReviews }) {
-  const { addToCart } = useCart();
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -272,12 +272,19 @@ export default function ProductDetails({ product, productReviews }) {
         </motion.div>
 
         {/* Wishlist */}
-        <motion.button variants={fadeUpVariant} className="mt-3 w-full btn-ghost text-sm flex items-center justify-center gap-2">
-
+        <motion.button
+          variants={fadeUpVariant}
+          onClick={() => toggleWishlist(product)}
+          className={`mt-3 w-full text-sm flex items-center justify-center gap-2 rounded-xl py-3 font-semibold transition-all ${
+            isInWishlist(product.id)
+              ? "bg-primary/10 text-primary border border-primary/30"
+              : "btn-ghost"
+          }`}
+        >
           <span className="material-symbols-outlined text-lg">
-            favorite
+            {isInWishlist(product.id) ? "heart_check" : "favorite"}
           </span>
-          Add to Wishlist
+          {isInWishlist(product.id) ? "In Wishlist" : "Add to Wishlist"}
         </motion.button>
 
         {/* Divider */}

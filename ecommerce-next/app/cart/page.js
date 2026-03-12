@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
-import { formatPrice } from "@/app/lib/mock-data";
+import { formatPrice, discountCodes } from "@/app/lib/mock-data";
 
 export default function CartPage() {
   const {
@@ -24,19 +24,23 @@ export default function CartPage() {
   const [discountInput, setDiscountInput] = useState("");
   const [discountError, setDiscountError] = useState("");
 
-  const handleApplyDiscount = (e) => {
+  const handleApplyDiscountWithFeedback = (e) => {
     e.preventDefault();
     if (!discountInput.trim()) return;
     
-    // Test if valid
-    applyDiscount(discountInput);
+    setDiscountError("");
     
-    // In our context, if it didn't apply and we didn't receive an error back, 
-    // it just ignores it if invalid. For UX, let's pretend we check if it applied.
-    setTimeout(() => {
-        // Just clearing input for simplicity. The context handles real validation against mock-data.
-        setDiscountInput("");
-    }, 100);
+    const isValid = discountCodes.some(
+      (d) => d.code.toUpperCase() === discountInput.trim().toUpperCase() && d.active
+    );
+    
+    if (!isValid) {
+      setDiscountError("Invalid discount code. Try LUXE10, SAVE20, or FREESHIP.");
+      setTimeout(() => setDiscountError(""), 3000);
+    } else {
+      applyDiscount(discountInput);
+    }
+    setDiscountInput("");
   };
 
   if (items.length === 0) {
@@ -183,18 +187,26 @@ export default function CartPage() {
             {/* Discount Code */}
             <div className="mt-6 pt-6 border-t border-border-subtle">
               {!discountCode ? (
-                <form onSubmit={handleApplyDiscount} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={discountInput}
-                    onChange={(e) => setDiscountInput(e.target.value)}
-                    placeholder="Discount code"
-                    className="flex-1 bg-white/5 border border-border-default rounded-xl px-4 py-2 text-sm text-text-primary placeholder:text-text-muted focus:ring-1 focus:ring-primary outline-none"
-                  />
-                  <button type="submit" className="glass hover:bg-white/10 px-4 rounded-xl text-sm font-semibold transition-colors">
-                    Apply
-                  </button>
-                </form>
+                <div>
+                  <form onSubmit={handleApplyDiscountWithFeedback} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={discountInput}
+                      onChange={(e) => { setDiscountInput(e.target.value); setDiscountError(""); }}
+                      placeholder="Discount code"
+                      className={`flex-1 bg-white/5 border rounded-xl px-4 py-2 text-sm text-text-primary placeholder:text-text-muted focus:ring-1 focus:ring-primary outline-none ${discountError ? 'border-danger' : 'border-border-default'}`}
+                    />
+                    <button type="submit" className="glass hover:bg-white/10 px-4 rounded-xl text-sm font-semibold transition-colors">
+                      Apply
+                    </button>
+                  </form>
+                  {discountError && (
+                    <p className="text-danger text-xs mt-2 flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[14px]">error</span>
+                      {discountError}
+                    </p>
+                  )}
+                </div>
               ) : (
                 <div className="flex items-center justify-between bg-success/10 border border-success/20 rounded-xl px-4 py-3">
                   <div className="flex items-center gap-2 text-success">
