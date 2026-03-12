@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuxeCommerce Admin Product List</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d59f2",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-30 flex w-full items-center justify-between bg-white/80 dark:bg-background-dark/80 px-4 py-3 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400">menu</span>
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">Products</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
+<span class="material-symbols-outlined text-xl">search</span>
+</button>
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 pb-24">
+<!-- Breadcrumbs -->
+<div class="px-4 py-3">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    Admin <span class="mx-1 opacity-50">&gt;</span> <span class="text-primary">Products</span>
+</p>
+</div>
+<!-- Analytics Overview Horizontal Scroll -->
+<div class="flex gap-4 overflow-x-auto px-4 pb-4 no-scrollbar">
+<div class="flex min-w-[160px] flex-1 flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/50 shadow-sm">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400">Total Products</p>
+<div class="flex items-end justify-between">
+<p class="text-2xl font-bold">1,240</p>
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 px-1.5 py-0.5 rounded">+2%</span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 70%"></div>
+</div>
+</div>
+<div class="flex min-w-[160px] flex-1 flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/50 shadow-sm">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400">Active Listings</p>
+<div class="flex items-end justify-between">
+<p class="text-2xl font-bold">1,180</p>
+<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 px-1.5 py-0.5 rounded">+1%</span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-emerald-500 rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div class="flex min-w-[160px] flex-1 flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/50 shadow-sm">
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400">Low Stock</p>
+<div class="flex items-end justify-between">
+<p class="text-2xl font-bold">12</p>
+<span class="text-[10px] font-bold text-rose-600 bg-rose-50 dark:bg-rose-900/20 px-1.5 py-0.5 rounded">-5%</span>
+</div>
+<div class="h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-rose-500 rounded-full" style="width: 12%"></div>
+</div>
+</div>
+</div>
+<!-- Search & Filter -->
+<div class="flex flex-col gap-3 px-4 py-2">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">search</span>
+<input class="w-full rounded-lg border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-900" placeholder="Search products..." type="text"/>
+</div>
+<div class="flex gap-2">
+<select class="flex-1 rounded-lg border-slate-200 bg-white py-2 text-sm dark:border-slate-800 dark:bg-slate-900">
+<option>Status: All</option>
+<option>Active</option>
+<option>Draft</option>
+<option>Archived</option>
+</select>
+<select class="flex-1 rounded-lg border-slate-200 bg-white py-2 text-sm dark:border-slate-800 dark:bg-slate-900">
+<option>Category: All</option>
+<option>Electronics</option>
+<option>Audio</option>
+<option>Wearables</option>
+</select>
+</div>
+</div>
+<!-- Product List Table (Card style for Mobile) -->
+<div class="mt-4 px-4 space-y-3">
+<!-- Product Card 1 -->
+<div class="group relative flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-3">
+<div class="h-16 w-16 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<img class="h-full w-full object-cover" data-alt="High-end professional headphones product shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpJqTRo0u_g6M2EclAXotmvTI0xwvrGmfVPpt-pQe9RnmuWIoykdE1ZSVYBwpf5tYcl253wosxVQbqj_WBMO_kTyHtu3dF4rRpPut9ye4tOepY6of6KBOGS5HFSoLHYe6xr_cKjoWVTY2Az6m9mj4Ba2S6OwUXUgYN4Wze40qeR1rYYXwsHRLr2wrHlF0rTTwRnpY6hicG8JdFzTkTBoihZTRd6V4o1thMjOfTH4XeF3NJ6a-EvU5qRCXHKqL8rfQAPOLuH9xbNYY"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-semibold text-slate-900 dark:text-slate-100 leading-tight">AeroSound Pro Headphones</h3>
+<p class="text-xs text-slate-500">SKU: LX-8820 • Audio</p>
+<p class="mt-1 text-sm font-bold text-primary">$349.00</p>
+</div>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-medium text-emerald-600">Active</span>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="text-[10px] text-slate-400 font-medium">Stock: 85/100</span>
+<div class="h-1.5 w-24 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group relative flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-3">
+<div class="h-16 w-16 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<img class="h-full w-full object-cover" data-alt="Minimalist luxury wristwatch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTBXqvUk85Cthj00S3nArS_RGRbd9c0vxqbqIts7ryo0W26wrH5HeQvCr9Ap0ohCz_ySoMG_JxihLxiokRcNSzC8hvcSrnfCQ9hv266lckzbhEQr-iBiM_LIXN0CEdbbhNBHvnvbLLKStcQUXYHgoBSkdTN7g6D27gOb_ZrbkWEv7QSaGKUtSH68aLHuReo5cYUOH0XTA999W2-TR2ocSoKkvXnZpVrVVxyuDWdqnGQKw150m0h_1WmBJmdrXleXbr7GdLKUyx-8o"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-semibold text-slate-900 dark:text-slate-100 leading-tight">Luxe Chrono Watch</h3>
+<p class="text-xs text-slate-500">SKU: LX-4412 • Wearables</p>
+<p class="mt-1 text-sm font-bold text-primary">$599.00</p>
+</div>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="text-xs font-medium text-emerald-600">Active</span>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="text-[10px] text-slate-400 font-medium">Stock: 42/50</span>
+<div class="h-1.5 w-24 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 84%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 (Draft) -->
+<div class="group relative flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm opacity-80">
+<div class="flex items-start justify-between">
+<div class="flex gap-3">
+<div class="h-16 w-16 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<img class="h-full w-full object-cover" data-alt="Red sleek sports camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3ZEIU7MmXgPyCZ5-SI-umkuGVJsh2IPODGE-jTd82rMit0w5pDv_hBSglCv48Rgn99oybYCbuxGUIdaR6g3i1qjb5HKuL7EqsV6CamoxnHKXMMIRLvCnydQNpOYmqIMTHDijIvLnK5remAgtkjMqBs-6Ubv74i2X6vfvrz-tYwByTv6MAm8I0ru-DydyyjZQ3Mf1ouJ-mgTOEt8NWvotr7BUVjXZmRhl9I8g11zCqx30Mo4UA4rexl7NLC-2ROusM1g6eB17hvNE"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-semibold text-slate-900 dark:text-slate-100 leading-tight">ActionCam Pro Red</h3>
+<p class="text-xs text-slate-500">SKU: LX-1109 • Electronics</p>
+<p class="mt-1 text-sm font-bold text-primary">$199.00</p>
+</div>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-slate-400"></span>
+<span class="text-xs font-medium text-slate-500">Draft</span>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="text-[10px] text-slate-400 font-medium">Stock: 0/100</span>
+<div class="h-1.5 w-24 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-slate-300 rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group relative flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-3">
+<div class="h-16 w-16 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
+<img class="h-full w-full object-cover" data-alt="Professional wireless earbuds case" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtHyY1nV58H3mNCo8_3uPa25LKqg5lYpMs-4f28qiMZRqyj0tMXjvbnML637h73tsO-5MbBOmCQ3thDZ6WHEJ0kPxufNBEUAkaMGAw4_CISw6nZEnm2c_-ebse0OZ_22H7RzsFJs8fMcn5adxQFnLZKJqPxOPaLDdIWaIpvvUWyyAqSj-1mMEyCLf1-ydmXWIjD6MXNT9-QHT9X_zX_KqUWfqKKpBOm9CrdB0k4Nzee3sei7MTG0mVBa4Cn2AzpCeGNyTPFWugLLg"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-semibold text-slate-900 dark:text-slate-100 leading-tight">EvoBuds 3rd Gen</h3>
+<p class="text-xs text-slate-500">SKU: LX-3392 • Audio</p>
+<p class="mt-1 text-sm font-bold text-primary">$129.00</p>
+</div>
+</div>
+<button class="text-slate-400">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 pt-3 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-rose-500"></span>
+<span class="text-xs font-medium text-rose-600">Low Stock</span>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="text-[10px] text-slate-400 font-medium">Stock: 5/150</span>
+<div class="h-1.5 w-24 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-rose-500 rounded-full" style="width: 5%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between border-t border-slate-200 bg-white px-4 pb-6 pt-2 dark:border-slate-800 dark:bg-background-dark/95 backdrop-blur-lg">
+<a class="flex flex-1 flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-[10px] font-semibold">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<p class="text-[10px] font-bold">Products</p>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<p class="text-[10px] font-semibold">Orders</p>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-[10px] font-semibold">Users</p>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 text-slate-500 dark:text-slate-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-[10px] font-semibold">Settings</p>
+</a>
+</nav>
+<!-- Sidebar (Hidden off-screen for mobile interaction simulation) -->
+<!-- In a real mobile app, this would be a side drawer -->
+<div class="pointer-events-none fixed inset-0 z-[60] bg-slate-900/40 opacity-0 transition-opacity"></div>
+<aside class="fixed inset-y-0 left-0 z-[70] w-3/4 -translate-x-full bg-white transition-transform dark:bg-background-dark shadow-2xl">
+<div class="flex h-full flex-col p-6">
+<div class="mb-8 flex items-center gap-2">
+<div class="h-8 w-8 rounded-lg bg-primary"></div>
+<span class="text-xl font-bold tracking-tight">LuxeAdmin</span>
+</div>
+<ul class="flex flex-col gap-2">
+<li class="flex h-12 items-center gap-4 rounded-lg px-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="font-bold">Dashboard</p>
+</li>
+<li class="flex h-12 items-center gap-4 rounded-lg bg-primary/10 px-4 text-primary">
+<span class="material-symbols-outlined">shopping_bag</span>
+<p class="font-bold">Products</p>
+</li>
+<li class="flex h-12 items-center gap-4 rounded-lg px-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">receipt</span>
+<p class="font-bold">Orders</p>
+</li>
+<li class="flex h-12 items-center gap-4 rounded-lg px-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">group</span>
+<p class="font-bold">Customers</p>
+</li>
+<li class="flex h-12 items-center gap-4 rounded-lg px-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">campaign</span>
+<p class="font-bold">Marketing</p>
+</li>
+<hr class="my-4 border-slate-100 dark:border-slate-800"/>
+<li class="flex h-12 items-center gap-4 rounded-lg px-4 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+<p class="font-bold">Settings</p>
+</li>
+</ul>
+</div>
+</aside>
+</div>
+</body></html>

@@ -1,0 +1,169 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#256af4",
+                        "background-dark": "#05070a",
+                        "charcoal": "#0a0c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-slate-100 antialiased font-display;
+            }
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-primary {
+            box-shadow: 0 0 25px rgba(37, 106, 244, 0.4);
+        }
+        .mesh-gradient {
+            background-color: #05070a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 106, 244, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(100, 116, 139, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(37, 106, 244, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(15, 23, 42, 0.2) 0px, transparent 50%);
+        }
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="mesh-gradient min-h-screen relative overflow-x-hidden">
+<div class="floating-shape bg-primary w-[500px] h-[500px] -top-48 -left-48"></div>
+<div class="floating-shape bg-blue-900 w-[400px] h-[400px] bottom-0 -right-24"></div>
+<header class="w-full glass border-b border-white/5 px-6 lg:px-20 py-4 mb-12">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">headphones</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">LuxeCommerce</h2>
+</div>
+<div class="flex items-center gap-6">
+<button class="p-2 hover:bg-white/5 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-slate-800 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMIGsqCRqGMa9kXqMNb8nvrHQdoI8cjFjHWfJ975-_-OFJ7N2yrGtPD1Zx2qu6hLsK3c_Jf21C5a_QsLK81xQ30kPCUGAicmQhcyfK2fKzrHd4KrPzW7kYnuYvLrgOhr82XIzaXBhSN93-L29ULrvMdZKEifBOn8yMicLDvBw2mpPYJRcbM9q_hSGg97lWEa4qbkIvQslu2OWZnROe8_PLxn9MPr6tAod6Daus7NwKgQszhE1kIT-6lgDl4JBACMNpTvpPqsnTKBA')"></div>
+</div>
+</div>
+</header>
+<main class="max-w-4xl mx-auto px-6 pb-24">
+<div class="glass rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden">
+<div class="mb-8 inline-flex items-center justify-center w-24 h-24 bg-primary/10 rounded-full ring-1 ring-primary/30 relative">
+<div class="absolute inset-0 bg-primary blur-2xl opacity-20"></div>
+<span class="material-symbols-outlined text-6xl text-primary font-bold">check_circle</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-black tracking-tight mb-4 bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent">
+                Thank You for Your Order!
+            </h1>
+<p class="text-slate-400 text-lg mb-10 max-w-lg mx-auto">
+                Your luxury experience is on its way. We've sent a confirmation email to your registered address.
+            </p>
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm font-medium mb-12">
+<span class="text-slate-500">Order Number:</span>
+<span class="text-primary font-bold">#ORD-8829</span>
+</div>
+<div class="max-w-2xl mx-auto mb-16 relative">
+<div class="flex items-center justify-between relative z-10">
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center glow-primary">
+<span class="material-symbols-outlined text-white text-xl">inventory_2</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest text-primary">Order Placed</span>
+</div>
+<div class="flex-1 h-[2px] bg-slate-800 mx-2 -mt-7"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-slate-500 text-xl">settings</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500">Processing</span>
+</div>
+<div class="flex-1 h-[2px] bg-slate-800 mx-2 -mt-7"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-slate-500 text-xl">local_shipping</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500">Shipped</span>
+</div>
+<div class="flex-1 h-[2px] bg-slate-800 mx-2 -mt-7"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-slate-500 text-xl">done_all</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500">Delivered</span>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-10 text-left">
+<h3 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-6">Order Summary</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden glass p-1">
+<img alt="Product" class="w-full h-full object-cover rounded-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjtvBn4RnxN_62zGVJOv-fgG_PZIXyO5D5fDlYVDJMlpw-_xX_ouikq7QzFItcFkyKxXOYFab9FPj6-vay05Xo-jJHfg90VlctJMe1qSyY6XiJpx3sYsXqcZGl3vG7m4BR86UcVWmW9ncpdNcLKqgqKXLwlH1GXc29ZXReiNYGD1OHsjxbpVmQn16V3iqTUkt3knrWx2KZv5afK46mp38OzjcaIbFEVQ3-nrKERDe8o1eLZKKqscSEd32gxvEokt2LzyE-U-wm6pQ"/>
+</div>
+<div>
+<h4 class="font-bold text-slate-100">AeroSound X-1</h4>
+<p class="text-sm text-slate-500">Midnight Black • Qty: 1</p>
+</div>
+</div>
+<span class="font-bold text-lg text-slate-200">$399.00</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+<button class="w-full glass py-4 rounded-xl font-bold text-slate-300 hover:bg-white/10 transition-all border border-white/10">
+                    View Order History
+                </button>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold glow-primary hover:brightness-110 transition-all active:scale-[0.98]">
+                    Continue Shopping
+                </button>
+</div>
+</div>
+<div class="mt-12 text-center">
+<p class="text-slate-500 text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+                Need help with your order? <a class="text-primary hover:underline font-medium" href="#">Contact Concierge</a>
+</p>
+</div>
+</main>
+<footer class="max-w-4xl mx-auto border-t border-white/5 py-12 px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<span class="text-sm text-slate-600">© 2023 LuxeCommerce. All rights reserved.</span>
+<div class="flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-600">
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Returns</a>
+</div>
+</footer>
+
+</body></html>
