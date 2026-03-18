@@ -40,9 +40,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { name: "All Collections", path: "/collections" },
-                { name: "Electronics", path: "/collections/electronics" },
-                { name: "Fashion", path: "/collections/fashion" },
-                { name: "Home & Living", path: "/collections/home" },
+                { name: "Audio", path: "/collections/audio" },
+                { name: "Computers", path: "/collections/computers" },
+                { name: "Watches", path: "/collections/watches" },
               ].map((link) => (
                 <li key={link.name}>
                   <Link

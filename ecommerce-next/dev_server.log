@@ -1,0 +1,31 @@
+
+> ecommerce-next@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1620ms
+○ Compiling / ...
+ GET / 200 in 6.2s (compile: 5.4s, render: 748ms)
+ GET /search 200 in 748ms (compile: 679ms, render: 70ms)
+ GET /search?q=Watch 200 in 89ms (compile: 5ms, render: 84ms)
+ GET /products/luxe-pro-watch-4 200 in 3.2s (compile: 3.1s, generate-params: 904ms, render: 59ms)
+ GET /collections/audio 200 in 1325ms (compile: 1150ms, render: 175ms)
+ GET /checkout 200 in 570ms (compile: 488ms, render: 83ms)
+ GET / 200 in 131ms (compile: 5ms, render: 126ms)
+ GET /search 200 in 73ms (compile: 9ms, render: 65ms)
+ GET /search?q=Watch 200 in 245ms (compile: 10ms, render: 235ms)
+ GET /products/luxe-pro-watch-4 200 in 158ms (compile: 50ms, generate-params: 37ms, render: 108ms)
+ GET /collections/audio 200 in 240ms (compile: 27ms, render: 212ms)
+ GET /products/luxe-pro-watch-4 200 in 200ms (compile: 24ms, generate-params: 20ms, render: 176ms)
+ GET /checkout 200 in 70ms (compile: 4ms, render: 66ms)
+ GET / 200 in 138ms (compile: 4ms, render: 134ms)
+ GET /search 200 in 27ms (compile: 4ms, render: 23ms)
+ GET /search?q=Watch 200 in 93ms (compile: 3ms, render: 89ms)
+ GET /products/luxe-pro-watch-4 200 in 96ms (compile: 27ms, generate-params: 21ms, render: 69ms)
+ GET /collections/audio 200 in 146ms (compile: 24ms, render: 122ms)
+ GET /products/luxe-pro-watch-4 200 in 116ms (compile: 25ms, generate-params: 20ms, render: 91ms)
+ GET /checkout 200 in 102ms (compile: 4ms, render: 98ms)

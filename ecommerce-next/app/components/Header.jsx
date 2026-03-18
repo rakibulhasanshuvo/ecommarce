@@ -21,7 +21,9 @@ export default function Header() {
 
   // Close mobile menu on route change
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     setMobileMenuOpen(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [pathname]);
 
   const navLinks = [
@@ -69,12 +71,13 @@ export default function Header() {
 
           {/* Icons & Actions */}
           <div className="flex items-center gap-2 md:gap-4 relative z-50">
-            <button
+            <Link
+              href="/search"
               className="hidden sm:flex w-10 h-10 rounded-full items-center justify-center hover:bg-white/5 transition-colors text-text-muted hover:text-white relative overflow-hidden"
               aria-label="Search"
             >
               <span className="material-symbols-outlined text-[22px]">search</span>
-            </button>
+            </Link>
             
             <Link
               href="/wishlist"

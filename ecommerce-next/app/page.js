@@ -40,8 +40,8 @@ export default function Home() {
               Shop All Products
               <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
             </Link>
-            <Link href="/collections/fashion" className="px-8 py-4 rounded-xl border border-border-default hover:bg-white/5 hover:border-text-secondary transition-all text-sm font-bold text-white w-full sm:w-auto text-center">
-              Explore Fashion
+            <Link href="/collections/audio" className="px-8 py-4 rounded-xl border border-border-default hover:bg-white/5 hover:border-text-secondary transition-all text-sm font-bold text-white w-full sm:w-auto text-center">
+              Explore Audio
             </Link>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function Home() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">Shop by <span className="text-primary">Category</span></h2>
-            <p className="text-text-secondary">Find exactly what you're looking for.</p>
+            <p className="text-text-secondary">Find exactly what you&apos;re looking for.</p>
           </div>
         </div>
 
@@ -75,24 +75,24 @@ export default function Home() {
             </div>
           </Link>
           
-          {/* Fashion */}
-          <Link href="/collections/fashion" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
-            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop" alt="Fashion" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          {/* Watches */}
+          <Link href="/collections/watches" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop" alt="Watches" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8">
-              <h3 className="text-2xl font-bold mb-2">Apparel</h3>
+              <h3 className="text-2xl font-bold mb-2">Watches</h3>
               <p className="text-text-muted text-sm font-medium flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 Shop Now <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </p>
             </div>
           </Link>
           
-          {/* Home */}
-          <Link href="/collections" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
-            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop" alt="Home Decor" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          {/* Accessories */}
+          <Link href="/collections/accessories" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop" alt="Accessories" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8">
-              <h3 className="text-2xl font-bold mb-2">Home & Living</h3>
+              <h3 className="text-2xl font-bold mb-2">Accessories</h3>
               <p className="text-text-muted text-sm font-medium flex items-center gap-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                 Shop Now <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
               </p>
