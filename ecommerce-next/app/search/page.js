@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { products } from "@/app/lib/mock-data";
 import ProductCard from "@/app/components/ProductCard";
@@ -10,6 +10,11 @@ function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [searchInput, setSearchInput] = useState(query);
+
+  // Sync input state if query param changes (e.g., from header search)
+  useEffect(() => {
+    setSearchInput(query);
+  }, [query]);
 
   const filteredProducts = useMemo(() => {
     if (!query) return [];

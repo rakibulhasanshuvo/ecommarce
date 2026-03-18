@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { products } from "./lib/mock-data";
 import { formatPrice } from "./lib/mock-data";
 import ProductCard from "./components/ProductCard";
@@ -13,10 +14,12 @@ export default function Home() {
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop"
             alt="Hero Background"
-            className="w-full h-full object-cover scale-105 animate-[pulse_10s_ease-in-out_infinite_alternate]"
+            fill
+            priority
+            className="object-cover scale-105 animate-[pulse_10s_ease-in-out_infinite_alternate]"
           />
           <div className="absolute inset-0 bg-background-dark/80 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent" />
@@ -65,7 +68,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Electonics */}
           <Link href="/collections/electronics" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
-            <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1000&auto=format&fit=crop" alt="Electronics" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <Image src="https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1000&auto=format&fit=crop" alt="Electronics" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8">
               <h3 className="text-2xl font-bold mb-2">Electronics</h3>
@@ -77,7 +80,7 @@ export default function Home() {
           
           {/* Watches */}
           <Link href="/collections/watches" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
-            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop" alt="Watches" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <Image src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop" alt="Watches" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8">
               <h3 className="text-2xl font-bold mb-2">Watches</h3>
@@ -89,7 +92,7 @@ export default function Home() {
           
           {/* Accessories */}
           <Link href="/collections/accessories" className="group relative h-80 rounded-3xl overflow-hidden glass glow-box">
-            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop" alt="Accessories" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <Image src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop" alt="Accessories" fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent" />
             <div className="absolute bottom-0 left-0 p-8">
               <h3 className="text-2xl font-bold mb-2">Accessories</h3>

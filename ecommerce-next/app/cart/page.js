@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import { formatPrice } from "@/app/lib/mock-data";
 
@@ -75,10 +76,11 @@ export default function CartPage() {
             >
               {/* Image */}
               <Link href={`/products/${item.product.slug}`} className="block w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-white/5 rounded-xl overflow-hidden relative">
-                <img
+                <Image
+                  fill
                   src={item.product.images[0]?.url}
                   alt={item.product.name}
-                  className="w-full h-full object-cover"
+                  className="object-cover"
                 />
               </Link>
 

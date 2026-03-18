@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import {
   formatPrice,
@@ -53,11 +54,12 @@ export default function ProductDetails({ product, productReviews }) {
         className="space-y-4"
       >
         <div className="relative aspect-square rounded-2xl overflow-hidden bg-white/5 glass">
-          <motion.img
-
+          <Image
+            fill
+            priority
             src={product.images[0]?.url}
             alt={product.images[0]?.alt_text || product.name}
-            className="w-full h-full object-cover"
+            className="object-cover"
           />
           {discount > 0 && (
             <span className="absolute top-4 left-4 badge badge-danger text-sm px-3 py-1">
@@ -71,12 +73,13 @@ export default function ProductDetails({ product, productReviews }) {
             {product.images.map((img, i) => (
               <button
                 key={i}
-                className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary/50 bg-white/5"
+                className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary/50 bg-white/5 relative"
               >
-                <img
+                <Image
+                  fill
                   src={img.url}
                   alt={img.alt_text}
-                  className="w-full h-full object-cover"
+                  className="object-cover"
                 />
               </button>
             ))}
