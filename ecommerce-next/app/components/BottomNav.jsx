@@ -6,7 +6,7 @@ import { useCart } from "@/app/context/CartContext";
 
 const navItems = [
   { label: "Home", icon: "home", href: "/" },
-  { label: "Search", icon: "search", href: "#", action: "search" },
+  { label: "Search", icon: "search", href: "/search" },
   { label: "Wishlist", icon: "favorite", href: "/wishlist", badge: "wishlist" },
   { label: "Cart", icon: "shopping_bag", href: "/cart", badge: "cart" },
 ];
@@ -34,8 +34,7 @@ export default function BottomNav() {
         return (
           <Link
             key={item.label}
-            href={item.action === "search" ? "#" : item.href}
-            onClick={item.action === "search" ? (e) => { e.preventDefault(); console.log("Search clicked"); } : undefined}
+            href={item.href}
             className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-all relative ${
               isActive
                 ? "text-primary"

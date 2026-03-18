@@ -16,7 +16,7 @@ export default function WishlistPage() {
               Your Wishlist
             </h1>
             <p className="text-text-muted text-lg max-w-xl">
-              Keep track of the products you love. They'll be waiting here whenever you're ready.
+              Keep track of the products you love. They&apos;ll be waiting here whenever you&apos;re ready.
             </p>
           </div>
           

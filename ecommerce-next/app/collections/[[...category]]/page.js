@@ -83,6 +83,15 @@ export default async function CollectionsPage({ params, searchParams }) {
             {filteredProducts.length} product{filteredProducts.length !== 1 && "s"} found
           </p>
         </div>
+        {(currentCategory || filterTag) && (
+          <Link
+            href="/collections"
+            className="text-xs font-semibold text-primary hover:text-primary-light flex items-center gap-1 transition-colors"
+          >
+            <span className="material-symbols-outlined text-[14px]">close</span>
+            Clear all filters
+          </Link>
+        )}
       </div>
 
       {/* Category Tabs */}

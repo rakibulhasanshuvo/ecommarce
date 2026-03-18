@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
 import { formatPrice } from "@/app/lib/mock-data";
@@ -22,18 +23,53 @@ export default function CheckoutPage() {
     cardNumber: "", expDate: "", cvv: "", nameOnCard: ""
   });
 
+  const [orderNumber, setOrderNumber] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validateShipping = () => {
+    const newErrors = {};
+    if (!shippingInfo.firstName.trim()) newErrors.firstName = "Required";
+    if (!shippingInfo.lastName.trim()) newErrors.lastName = "Required";
+    if (!shippingInfo.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingInfo.email))
+      newErrors.email = "Invalid email";
+    if (!shippingInfo.address.trim()) newErrors.address = "Required";
+    if (!shippingInfo.city.trim()) newErrors.city = "Required";
+    if (!shippingInfo.zip.trim() || !/^\d{5}(-\d{4})?$/.test(shippingInfo.zip))
+      newErrors.zip = "Invalid ZIP";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validatePayment = () => {
+    const newErrors = {};
+    if (!paymentInfo.nameOnCard.trim()) newErrors.nameOnCard = "Required";
+    if (!paymentInfo.cardNumber.trim() || paymentInfo.cardNumber.replace(/\s/g, '').length < 13)
+      newErrors.cardNumber = "Invalid card number";
+    if (!paymentInfo.expDate.trim() || !/^\d{2}\/\d{2}$/.test(paymentInfo.expDate))
+      newErrors.expDate = "Use MM/YY";
+    if (!paymentInfo.cvv.trim() || paymentInfo.cvv.length < 3)
+      newErrors.cvv = "Invalid CVV";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNextStep = (e) => {
     e.preventDefault();
-    setStep(step + 1);
+    if (validateShipping()) {
+      setStep(step + 1);
+      setErrors({});
+    }
   };
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
+    if (!validatePayment()) return;
     setIsProcessing(true);
     
     // Simulate order processing
     setTimeout(() => {
       setIsProcessing(false);
+      setOrderNumber(`LX-${Math.floor(Math.random() * 90000) + 10000}`);
       clearCart();
       setStep(3);
     }, 2000);
@@ -59,8 +95,8 @@ export default function CheckoutPage() {
         </div>
         <h1 className="text-3xl font-bold mb-4">Order Confirmed!</h1>
         <p className="text-text-secondary mb-8">
-          Thank you, {shippingInfo.firstName || "Customer"}. Your order #LX-{Math.floor(Math.random() * 90000) + 10000} has been placed successfully. 
-          We'll send a confirmation email to {shippingInfo.email} shortly.
+          Thank you, {shippingInfo.firstName || "Customer"}. Your order #{orderNumber} has been placed successfully.
+          We&apos;ll send a confirmation email to {shippingInfo.email} shortly.
         </p>
         <Link href="/" className="btn-primary">
           Continue Shopping
@@ -96,15 +132,33 @@ export default function CheckoutPage() {
 
           {/* Step 1: Shipping */}
           {step === 1 && (
-            <form onSubmit={handleNextStep} className="glass p-6 rounded-2xl animate-fade-in">
+            <form onSubmit={handleNextStep} noValidate className="glass p-6 rounded-2xl animate-fade-in">
               <h2 className="text-xl font-bold mb-6">Shipping Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required type="text" placeholder="First Name" value={shippingInfo.firstName} onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})} className="input-field" />
-                <input required type="text" placeholder="Last Name" value={shippingInfo.lastName} onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})} className="input-field" />
-                <input required type="email" placeholder="Email Address" value={shippingInfo.email} onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})} className="input-field md:col-span-2" />
-                <input required type="text" placeholder="Street Address" value={shippingInfo.address} onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})} className="input-field md:col-span-2" />
-                <input required type="text" placeholder="City" value={shippingInfo.city} onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})} className="input-field" />
-                <input required type="text" placeholder="ZIP Code" value={shippingInfo.zip} onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})} className="input-field" />
+                <div className="flex flex-col gap-1">
+                  <input type="text" placeholder="First Name" value={shippingInfo.firstName} onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})} className={`input-field ${errors.firstName ? 'border-danger' : ''}`} />
+                  {errors.firstName && <span className="text-danger text-[10px]">{errors.firstName}</span>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input type="text" placeholder="Last Name" value={shippingInfo.lastName} onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})} className={`input-field ${errors.lastName ? 'border-danger' : ''}`} />
+                  {errors.lastName && <span className="text-danger text-[10px]">{errors.lastName}</span>}
+                </div>
+                <div className="flex flex-col gap-1 md:col-span-2">
+                  <input type="email" placeholder="Email Address" value={shippingInfo.email} onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})} className={`input-field ${errors.email ? 'border-danger' : ''}`} />
+                  {errors.email && <span className="text-danger text-[10px]">{errors.email}</span>}
+                </div>
+                <div className="flex flex-col gap-1 md:col-span-2">
+                  <input type="text" placeholder="Street Address" value={shippingInfo.address} onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})} className={`input-field ${errors.address ? 'border-danger' : ''}`} />
+                  {errors.address && <span className="text-danger text-[10px]">{errors.address}</span>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input type="text" placeholder="City" value={shippingInfo.city} onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})} className={`input-field ${errors.city ? 'border-danger' : ''}`} />
+                  {errors.city && <span className="text-danger text-[10px]">{errors.city}</span>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input type="text" placeholder="ZIP Code" value={shippingInfo.zip} onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})} className={`input-field ${errors.zip ? 'border-danger' : ''}`} />
+                  {errors.zip && <span className="text-danger text-[10px]">{errors.zip}</span>}
+                </div>
               </div>
               <button type="submit" className="btn-primary w-full mt-8 py-3">
                 Continue to Payment
@@ -114,24 +168,36 @@ export default function CheckoutPage() {
 
           {/* Step 2: Payment */}
           {step === 2 && (
-            <form onSubmit={handlePlaceOrder} className="glass p-6 rounded-2xl animate-fade-in">
+            <form onSubmit={handlePlaceOrder} noValidate className="glass p-6 rounded-2xl animate-fade-in">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold">Payment Details</h2>
-                <button type="button" onClick={() => setStep(1)} className="text-sm text-text-muted hover:text-text-primary transition-colors flex items-center gap-1">
+                <button type="button" onClick={() => {setStep(1); setErrors({});}} className="text-sm text-text-muted hover:text-text-primary transition-colors flex items-center gap-1">
                   <span className="material-symbols-outlined text-[16px]">arrow_back</span> Back
                 </button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input required type="text" placeholder="Cardholder Name" value={paymentInfo.nameOnCard} onChange={(e) => setPaymentInfo({...paymentInfo, nameOnCard: e.target.value})} className="input-field md:col-span-2" />
-                
-                <div className="relative md:col-span-2">
-                  <input required type="text" maxLength="19" placeholder="Card Number (e.g. 4111 1111 1111 1111)" value={paymentInfo.cardNumber} onChange={(e) => setPaymentInfo({...paymentInfo, cardNumber: e.target.value})} className="input-field pl-10 w-full" />
-                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">credit_card</span>
+                <div className="flex flex-col gap-1 md:col-span-2">
+                  <input type="text" placeholder="Cardholder Name" value={paymentInfo.nameOnCard} onChange={(e) => setPaymentInfo({...paymentInfo, nameOnCard: e.target.value})} className={`input-field ${errors.nameOnCard ? 'border-danger' : ''}`} />
+                  {errors.nameOnCard && <span className="text-danger text-[10px]">{errors.nameOnCard}</span>}
                 </div>
                 
-                <input required type="text" maxLength="5" placeholder="MM/YY" value={paymentInfo.expDate} onChange={(e) => setPaymentInfo({...paymentInfo, expDate: e.target.value})} className="input-field" />
-                <input required type="text" maxLength="4" placeholder="CVV" value={paymentInfo.cvv} onChange={(e) => setPaymentInfo({...paymentInfo, cvv: e.target.value})} className="input-field" />
+                <div className="flex flex-col gap-1 md:col-span-2">
+                  <div className="relative">
+                    <input type="text" maxLength="19" placeholder="Card Number" value={paymentInfo.cardNumber} onChange={(e) => setPaymentInfo({...paymentInfo, cardNumber: e.target.value})} className={`input-field pl-10 w-full ${errors.cardNumber ? 'border-danger' : ''}`} />
+                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">credit_card</span>
+                  </div>
+                  {errors.cardNumber && <span className="text-danger text-[10px]">{errors.cardNumber}</span>}
+                </div>
+                
+                <div className="flex flex-col gap-1">
+                  <input type="text" maxLength="5" placeholder="MM/YY" value={paymentInfo.expDate} onChange={(e) => setPaymentInfo({...paymentInfo, expDate: e.target.value})} className={`input-field ${errors.expDate ? 'border-danger' : ''}`} />
+                  {errors.expDate && <span className="text-danger text-[10px]">{errors.expDate}</span>}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <input type="text" maxLength="4" placeholder="CVV" value={paymentInfo.cvv} onChange={(e) => setPaymentInfo({...paymentInfo, cvv: e.target.value})} className={`input-field ${errors.cvv ? 'border-danger' : ''}`} />
+                  {errors.cvv && <span className="text-danger text-[10px]">{errors.cvv}</span>}
+                </div>
               </div>
               
               <button type="submit" disabled={isProcessing} className="btn-primary w-full mt-8 py-3.5 flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
@@ -162,7 +228,7 @@ export default function CheckoutPage() {
               {items.map((item) => (
                 <div key={item.variant.sku} className="flex gap-3">
                   <div className="w-16 h-16 rounded-lg bg-white/5 border border-border-default overflow-hidden relative">
-                    <img src={item.product.images[0]?.url} alt="" className="w-full h-full object-cover" />
+                    <Image fill src={item.product.images[0]?.url} alt="" className="object-cover" />
                     <span className="absolute -top-2 -right-2 bg-text-primary text-background-dark text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold shadow">
                       {item.quantity}
                     </span>

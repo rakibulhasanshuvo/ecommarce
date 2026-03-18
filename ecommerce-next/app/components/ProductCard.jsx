@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice, getDiscountPercent } from "@/app/lib/mock-data";
 import { useCart } from "@/app/context/CartContext";
 
@@ -34,11 +35,11 @@ export default function ProductCard({ product, variant = "default" }) {
           href={`/products/${product.slug}`}
           className="w-1/3 aspect-square rounded-xl overflow-hidden bg-white/5 block shrink-0 relative"
         >
-          <img
+          <Image
             alt={product.images[0]?.alt_text || product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'grayscale opacity-50' : ''}`}
+            fill
+            className={`object-cover transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'grayscale opacity-50' : ''}`}
             src={product.images[0]?.url}
-            loading="lazy"
           />
           {isOutOfStock && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -129,11 +130,11 @@ export default function ProductCard({ product, variant = "default" }) {
         href={`/products/${product.slug}`}
         className="aspect-square rounded-xl overflow-hidden bg-white/5 mb-3 block relative"
       >
-        <img
+        <Image
           alt={product.images[0]?.alt_text || product.name}
-          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'grayscale opacity-50' : ''}`}
+          fill
+          className={`object-cover transition-transform duration-500 group-hover:scale-110 ${isOutOfStock ? 'grayscale opacity-50' : ''}`}
           src={product.images[0]?.url}
-          loading="lazy"
         />
         {discount > 0 && !isOutOfStock && (
           <span className="absolute top-2 left-2 badge badge-danger">

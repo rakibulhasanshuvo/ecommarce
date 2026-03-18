@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import {
   formatPrice,
@@ -25,7 +26,7 @@ const fadeUpVariant = {
 };
 
 export default function ProductDetails({ product, productReviews }) {
-  const { addToCart } = useCart();
+  const { addToCart, toggleWishlist, isInWishlist } = useCart();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -53,11 +54,12 @@ export default function ProductDetails({ product, productReviews }) {
         className="space-y-4"
       >
         <div className="relative aspect-square rounded-2xl overflow-hidden bg-white/5 glass">
-          <motion.img
-
+          <Image
+            fill
+            priority
             src={product.images[0]?.url}
             alt={product.images[0]?.alt_text || product.name}
-            className="w-full h-full object-cover"
+            className="object-cover"
           />
           {discount > 0 && (
             <span className="absolute top-4 left-4 badge badge-danger text-sm px-3 py-1">
@@ -71,12 +73,13 @@ export default function ProductDetails({ product, productReviews }) {
             {product.images.map((img, i) => (
               <button
                 key={i}
-                className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary/50 bg-white/5"
+                className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary/50 bg-white/5 relative"
               >
-                <img
+                <Image
+                  fill
                   src={img.url}
                   alt={img.alt_text}
-                  className="w-full h-full object-cover"
+                  className="object-cover"
                 />
               </button>
             ))}
@@ -272,12 +275,21 @@ export default function ProductDetails({ product, productReviews }) {
         </motion.div>
 
         {/* Wishlist */}
-        <motion.button variants={fadeUpVariant} className="mt-3 w-full btn-ghost text-sm flex items-center justify-center gap-2">
-
-          <span className="material-symbols-outlined text-lg">
+        <motion.button
+          variants={fadeUpVariant}
+          onClick={() => toggleWishlist(product)}
+          className={`mt-3 w-full btn-ghost text-sm flex items-center justify-center gap-2 ${
+            isInWishlist(product.id) ? "text-primary border-primary/30" : ""
+          }`}
+        >
+          <span
+            className={`material-symbols-outlined text-lg ${
+              isInWishlist(product.id) ? "fill-1" : ""
+            }`}
+          >
             favorite
           </span>
-          Add to Wishlist
+          {isInWishlist(product.id) ? "Saved in Wishlist" : "Add to Wishlist"}
         </motion.button>
 
         {/* Divider */}

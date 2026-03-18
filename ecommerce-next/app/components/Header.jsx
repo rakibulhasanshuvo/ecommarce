@@ -8,6 +8,8 @@ import { useCart } from "@/app/context/CartContext";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { itemCount, wishlist } = useCart();
   const wishlistCount = wishlist.length;
   const pathname = usePathname();
@@ -21,7 +23,9 @@ export default function Header() {
 
   // Close mobile menu on route change
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     setMobileMenuOpen(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [pathname]);
 
   const navLinks = [
@@ -69,12 +73,50 @@ export default function Header() {
 
           {/* Icons & Actions */}
           <div className="flex items-center gap-2 md:gap-4 relative z-50">
-            <button
-              className="hidden sm:flex w-10 h-10 rounded-full items-center justify-center hover:bg-white/5 transition-colors text-text-muted hover:text-white relative overflow-hidden"
-              aria-label="Search"
-            >
-              <span className="material-symbols-outlined text-[22px]">search</span>
-            </button>
+            {/* Desktop Search Bar */}
+            <div className="hidden sm:flex items-center relative group">
+              <form
+                action="/search"
+                className={`flex items-center transition-all duration-300 ease-out overflow-hidden ${
+                  isSearchOpen ? "w-64 bg-white/10 border-white/20 px-4" : "w-10 bg-transparent border-transparent"
+                } h-10 rounded-full border backdrop-blur-md`}
+              >
+                <input
+                  type="text"
+                  name="q"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search products..."
+                  className={`bg-transparent border-none outline-none text-sm text-white placeholder:text-text-muted w-full transition-opacity duration-300 ${
+                    isSearchOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                />
+                <button
+                  type={isSearchOpen ? "submit" : "button"}
+                  onClick={(e) => {
+                    if (!isSearchOpen) {
+                      e.preventDefault();
+                      setIsSearchOpen(true);
+                    }
+                  }}
+                  className="w-8 h-8 flex-shrink-0 flex items-center justify-center text-text-muted hover:text-white transition-colors"
+                  aria-label={isSearchOpen ? "Submit search" : "Open search"}
+                >
+                  <span className="material-symbols-outlined text-[22px]">search</span>
+                </button>
+              </form>
+              {isSearchOpen && (
+                <button
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery("");
+                  }}
+                  className="absolute -right-1 top-0 w-4 h-4 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[12px] text-white">close</span>
+                </button>
+              )}
+            </div>
             
             <Link
               href="/wishlist"
