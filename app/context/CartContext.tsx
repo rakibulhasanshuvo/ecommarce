@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useCallback, useMemo, useEffect } from "react";
-import { decodeData, encodeData } from "@/app/lib/storage";
+import { decodeData, encodeData } from "../lib/storage";
 import { STORAGE_KEYS, initialState, ACTIONS, cartReducer, getDerivedCartState } from "./cartReducer";
 import { CartContextValue, Product, Variant } from "../types";
 
