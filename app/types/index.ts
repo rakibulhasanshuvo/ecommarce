@@ -63,6 +63,16 @@ export interface User {
   created_at: string;
 }
 
+export interface Review {
+  id: string;
+  product_id: string;
+  user_name: string;
+  rating: number;
+  comment: string;
+  verified: boolean;
+  created_at: string;
+}
+
 export interface OrderItem {
   product_id: string;
   variant_id: string;

@@ -21,7 +21,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
         if (savedCart) {
-          const decoded = decodeData(savedCart);
+          const decoded = decodeData<any[]>(savedCart);
           if (decoded) parsedCart = decoded;
         }
       } catch (e) {
@@ -32,7 +32,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const savedWishlist = localStorage.getItem(STORAGE_KEYS.WISHLIST);
         if (savedWishlist) {
-          const decoded = decodeData(savedWishlist);
+          const decoded = decodeData<any[]>(savedWishlist);
           if (decoded) parsedWishlist = decoded;
         }
       } catch (e) {
