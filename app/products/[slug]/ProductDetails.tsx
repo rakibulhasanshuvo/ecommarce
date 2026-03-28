@@ -20,19 +20,12 @@ const staggerContainer = {
   },
 };
 
-const fadeUpVariant = {
+const fadeUpVariant: import("framer-motion").Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-interface Review {
-  id: string;
-  user_name: string;
-  rating: number;
-  comment: string;
-  verified: boolean;
-  created_at: string;
-}
+import { Review } from "@/app/types";
 
 interface ProductDetailsProps {
   product: Product;

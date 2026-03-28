@@ -1,6 +1,6 @@
 // ===== LuxeCommerce Mock Data =====
 // Data Blueprints based on PROJECT_SPEC.md §6
-import { Product, Category, User, Address, Order, DiscountCode } from "../types";
+import { Product, Category, User, Address, Order, DiscountCode, Review } from "../types";
 
 // ===== Categories =====
 export const categories: Category[] = [
@@ -289,6 +289,37 @@ export const heroSlides = [
     title: "Elevate Your Reality",
     cta: "Shop Now",
     href: "/collections/audio",
+  },
+];
+
+// ===== Reviews =====
+export const reviews: Review[] = [
+  {
+    id: "rev-001",
+    product_id: "prod-001",
+    user_name: "Alex Morgan",
+    rating: 5,
+    comment: "Absolutely love this watch! The battery life is amazing and the display is super crisp.",
+    verified: true,
+    created_at: "2025-12-25T10:00:00Z",
+  },
+  {
+    id: "rev-002",
+    product_id: "prod-001",
+    user_name: "Jordan Lee",
+    rating: 4,
+    comment: "Great watch, but a bit pricey. The health tracking features are top notch though.",
+    verified: false,
+    created_at: "2025-12-26T14:30:00Z",
+  },
+  {
+    id: "rev-003",
+    product_id: "prod-003",
+    user_name: "Sarah Chen",
+    rating: 5,
+    comment: "The noise cancellation on these headphones is unreal. Highly recommend for travel.",
+    verified: true,
+    created_at: "2025-12-28T09:15:00Z",
   },
 ];
 
