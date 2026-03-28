@@ -1,4 +1,4 @@
-import { CartState, Product, Variant, DiscountCode } from "../types";
+import { CartState, Product, Variant, DiscountCode } from "../types/index";
 import { discountCodes } from "../lib/mock-data";
 
 export const STORAGE_KEYS = {
