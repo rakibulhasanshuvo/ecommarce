@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { validateEmail } from "../lib/validation";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
-
-  const validateEmail = (value: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(value);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
