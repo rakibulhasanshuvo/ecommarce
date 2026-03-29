@@ -103,11 +103,10 @@ export default function CheckoutPage() {
     
     // Generate stable order number once
     if (!orderNumberRef.current) {
-      const array = new Uint32Array(1);
-      window.crypto.getRandomValues(array);
-      const secureRandom = (array[0] % 90000) + 10000;
-      orderNumberRef.current = `LX-${secureRandom}`;
-      setOrderNumber(`LX-${secureRandom}`);
+      const uuid = window.crypto.randomUUID();
+      const orderId = uuid.split("-")[0].toUpperCase();
+      orderNumberRef.current = `LX-${orderId}`;
+      setOrderNumber(`LX-${orderId}`);
     }
     
     // Simulate order processing
@@ -138,7 +137,7 @@ export default function CheckoutPage() {
         </div>
         <h1 className="text-3xl font-bold mb-4">Order Confirmed!</h1>
         <p className="text-text-secondary mb-8">
-          Thank you, {sanitize(shippingInfo.firstName) || "Customer"}. Your order #{orderNumber || "LX-73291"} has been placed successfully.
+          Thank you, {sanitize(shippingInfo.firstName) || "Customer"}. Your order #{orderNumber || "LX-XXXXXXXX"} has been placed successfully.
           We&apos;ll send a confirmation email to {sanitize(shippingInfo.email)} shortly.
         </p>
         <Link href="/" className="btn-primary">
