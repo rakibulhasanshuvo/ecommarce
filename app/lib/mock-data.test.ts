@@ -8,7 +8,7 @@ import {
   formatPrice,
   getDiscountPercent,
   getStockStatus,
-} from './mock-data';
+} from './mock-data.ts';
 
 function testMockDataHelpers() {
   console.log('Running tests for mock-data.ts...');

@@ -1,6 +1,6 @@
 // ===== LuxeCommerce Mock Data =====
 // Data Blueprints based on PROJECT_SPEC.md §6
-import { Product, Category, User, Address, Order, DiscountCode, Review } from "../types";
+import type { Product, Category, User, Address, Order, DiscountCode, Review } from "../types/index.ts";
 
 // ===== Categories =====
 export const categories: Category[] = [

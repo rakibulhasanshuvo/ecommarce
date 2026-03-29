@@ -1,5 +1,5 @@
-import { CartState, Product, Variant, DiscountCode } from "../types";
-import { discountCodes } from "../lib/mock-data";
+import type { CartState, Product, Variant, DiscountCode } from "../types/index.ts";
+import { discountCodes } from "../lib/mock-data.ts";
 
 export const STORAGE_KEYS = {
   CART: "luxe_cart",
