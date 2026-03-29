@@ -34,9 +34,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const category = categories.find((c) => c.id === product.category_id);
   const productReviews = reviews.filter((r) => r.product_id === product.id);
-  const relatedProducts = products
-    .filter((p) => p.category_id === product.category_id && p.id !== product.id)
-    .slice(0, 4);
+
+  const relatedProducts = [];
+  for (const p of products) {
+    if (p.category_id === product.category_id && p.id !== product.id) {
+      relatedProducts.push(p);
+      if (relatedProducts.length === 4) break;
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6">
@@ -79,10 +84,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {/* Product Details (Client Component) */}
       <ProductDetails
         product={product}
-        productReviews={productReviews.map(r => ({
-          ...r,
-          verified: true // Mock data doesn't have verified field, adding it for the component
-        }))}
+        productReviews={productReviews}
       />
 
       {/* Related Products */}
