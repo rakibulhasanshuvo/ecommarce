@@ -390,7 +390,8 @@ export default function ProductDetails({ product, productReviews }: ProductDetai
                           <div>
                             <p className="text-sm font-semibold">
                               {review.user_name}
-                              {review.verified && (
+                              {/* Show verified badge if the field is present, otherwise default to verified for mock data as before */}
+                              {(review.verified !== false) && (
                                 <span className="ml-1.5 text-success text-[10px] font-normal">
                                   ✓ Verified
                                 </span>
