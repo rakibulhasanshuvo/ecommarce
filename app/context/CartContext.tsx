@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useReducer, useCallback, useMemo, useEffect } from "react";
 import { decodeData, encodeData } from "../lib/storage";
 import { STORAGE_KEYS, initialState, ACTIONS, cartReducer, getDerivedCartState } from "./cartReducer";
-import { CartContextValue, Product, Variant } from "../types";
+import { CartContextValue, CartItem, Product, Variant } from "../types";
 
 // ===== Context =====
 const CartContext = createContext<CartContextValue | null>(null);
@@ -15,13 +15,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Load from localStorage on mount (with error handling)
   useEffect(() => {
     if (typeof window !== "undefined") {
-      let parsedCart = [];
-      let parsedWishlist = [];
+      let parsedCart: CartItem[] = [];
+      let parsedWishlist: Product[] = [];
 
       try {
         const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
         if (savedCart) {
-          const decoded = decodeData<any[]>(savedCart);
+          const decoded = decodeData<CartItem[]>(savedCart);
           if (decoded) parsedCart = decoded;
         }
       } catch (e) {
@@ -32,7 +32,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const savedWishlist = localStorage.getItem(STORAGE_KEYS.WISHLIST);
         if (savedWishlist) {
-          const decoded = decodeData<any[]>(savedWishlist);
+          const decoded = decodeData<Product[]>(savedWishlist);
           if (decoded) parsedWishlist = decoded;
         }
       } catch (e) {
