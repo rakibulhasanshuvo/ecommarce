@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { products } from "./lib/mock-data";
 import ProductCard from "./components/ProductCard";
