@@ -1,5 +1,5 @@
-import { CartState, Product, Variant, DiscountCode } from "../types";
-import { discountCodes } from "../lib/mock-data";
+import type { CartState, Product, Variant, DiscountCode } from "../types/index.ts";
+import { discountCodes } from "../lib/mock-data.ts";
 
 export const STORAGE_KEYS = {
   CART: "luxe_cart",
@@ -127,12 +127,13 @@ export function cartReducer(state: CartState, action: Action): CartState {
 
 // ===== Derived State Selectors (pure – no side effects) =====
 export function getDerivedCartState(state: CartState) {
-  const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
+  let itemCount = 0;
+  let subtotal = 0;
 
-  const subtotal = state.items.reduce(
-    (sum, item) => sum + (item.variant?.price || 0) * item.quantity,
-    0
-  );
+  for (const item of state.items) {
+    itemCount += item.quantity;
+    subtotal += (item.variant?.price || 0) * item.quantity;
+  }
 
   let discountAmount = 0;
   if (state.discountCode) {
