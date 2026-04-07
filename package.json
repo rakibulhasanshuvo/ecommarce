@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "tsx --test \"app/**/*.test.ts\""
+    "test": "tsx --test \"app/**/*.test.ts*\""
   },
   "dependencies": {
     "framer-motion": "^12.35.2",
